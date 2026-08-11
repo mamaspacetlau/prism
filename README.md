@@ -11,7 +11,7 @@ This repository now contains two related layers:
 
 The package exposes the core effect primitives, while the studio app exposes a parameter-editing UI for visual exploration.
 
-![Glow Demo](https://raw.githubusercontent.com/Oliverrr2424/Apple-Intelligence-Effect/main/glow_demo.png)
+![Prism Studio Demo](https://raw.githubusercontent.com/mamaspacetlau/prism/main/glow_demo.png)
 
 This package exposes:
 
