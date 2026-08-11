@@ -1,6 +1,6 @@
 {
   "name": "@mamaspace/prism",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Prism animated glow border as a reusable React component.",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",

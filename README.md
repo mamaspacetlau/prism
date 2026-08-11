@@ -1,4 +1,4 @@
-## prism-glow-react
+## @mamaspace/prism
 
 Prism-inspired animated glow border as a reusable React component.
 
@@ -6,7 +6,7 @@ Original upstream repository: [Oliverrr2424/Apple-Intelligence-Effect](https://g
 
 This repository now contains two related layers:
 
-- `src/` and `dist/`: the reusable `prism-glow-react` package
+- `src/` and `dist/`: the reusable `@mamaspace/prism` package
 - `prism-studio-demo/`: a forked and modified studio app for tuning and previewing the effect
 
 The package exposes the core effect primitives, while the studio app exposes a parameter-editing UI for visual exploration.
@@ -47,15 +47,15 @@ It also adds demo-specific controls such as preset management, JSON import/expor
 ### Installation
 
 ```bash
-npm install prism-glow-react
+npm install @mamaspace/prism
 ```
 
 or with yarn / pnpm:
 
 ```bash
-yarn add prism-glow-react
+yarn add @mamaspace/prism
 # or
-pnpm add prism-glow-react
+pnpm add @mamaspace/prism
 ```
 
 ---
@@ -66,7 +66,7 @@ The core idea is: **wrap your own UI with `PrismGlow`** and let the component ha
 
 ```jsx
 import React from "react";
-import { PrismGlow } from "prism-glow-react";
+import { PrismGlow } from "@mamaspace/prism";
 
 export default function Demo() {
   return (
@@ -124,7 +124,7 @@ import React from "react";
 import {
   PrismGlow,
   PrismLockScreen,
-} from "prism-glow-react";
+} from "@mamaspace/prism";
 
 export default function Demo() {
   return (
@@ -327,7 +327,7 @@ If you want to publish under your own npm account:
 Once published, consumers can install it with:
 
 ```bash
-npm install prism-glow-react
+npm install @mamaspace/prism
 ```
 
 and use it as shown in the examples above.
