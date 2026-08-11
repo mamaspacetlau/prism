@@ -1,0 +1,878 @@
+/* ===========================================================================
+   Prism Studio — three column shell: sidebar | preview stage | inspector
+   =========================================================================== */
+
+.ps-app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--ps-bg);
+  color: var(--ps-fg);
+  font-family: var(--ps-font-sans);
+}
+
+/* --------------------------------------------------------------- primitives */
+
+.ps-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--ps-radius-pill);
+  background: transparent;
+  color: var(--ps-fg-2);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ps-icon-btn:hover:not(:disabled) {
+  background: var(--ps-default);
+  color: var(--ps-fg);
+}
+
+.ps-icon-btn.is-on {
+  background: var(--ps-accent-soft);
+  color: var(--ps-accent);
+}
+
+.ps-icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ps-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--ps-radius-pill);
+  background: transparent;
+  color: var(--ps-fg);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.ps-btn--primary {
+  background: var(--ps-accent);
+  color: var(--ps-accent-fg);
+}
+
+.ps-btn--primary:hover:not(:disabled) {
+  background: var(--ps-accent-hover);
+}
+
+.ps-btn--outline {
+  border: 1px solid var(--ps-border);
+  color: var(--ps-fg);
+}
+
+.ps-btn--outline:hover:not(:disabled) {
+  background: var(--ps-default);
+}
+
+.ps-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ps-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius-lg);
+  background: var(--ps-surface);
+  color: var(--ps-fg);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ps-pill:hover:not(:disabled):not(.is-active) {
+  background: var(--ps-default);
+}
+
+.ps-pill.is-active {
+  background: var(--ps-accent);
+  border-color: var(--ps-accent);
+  color: var(--ps-accent-fg);
+}
+
+.ps-pill:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ps-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ps-section-title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--ps-fg-2);
+}
+
+.ps-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------------ sidebar */
+
+.ps-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: var(--ps-sidebar-w);
+  flex: 0 0 var(--ps-sidebar-w);
+  background: var(--ps-bg-2);
+  border-right: 1px solid var(--ps-border);
+}
+
+.ps-sidebar-head {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 18px 16px 12px;
+}
+
+.ps-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ps-app-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px -14px var(--ps-brand-shadow);
+  overflow: hidden;
+}
+
+.ps-app-mark-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ps-wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.ps-wordmark strong {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+}
+
+.ps-wordmark span {
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--ps-fg-3);
+}
+
+.ps-search-row {
+  padding: 0 16px 10px;
+}
+
+.ps-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: var(--ps-radius-xl);
+  background: var(--ps-field-bg);
+  border: 1px solid transparent;
+  color: var(--ps-fg-3);
+}
+
+.ps-search:focus-within {
+  border-color: var(--ps-field-border);
+}
+
+.ps-search input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: var(--ps-fg);
+  font-size: 14px;
+}
+
+.ps-search input::placeholder {
+  color: var(--ps-fg-3);
+}
+
+.ps-sidebar-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+
+.ps-presets-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 10px 0 16px;
+}
+
+.ps-preset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 10px 12px;
+}
+
+.ps-preset-row {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: var(--ps-radius-xl);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ps-preset-row:hover {
+  background: var(--ps-surface-2);
+}
+
+.ps-preset-row.is-active {
+  background: var(--ps-row-active);
+}
+
+.ps-preset-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ps-preset-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ps-fg-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ps-preset-row.is-active .ps-preset-name {
+  color: var(--ps-fg);
+}
+
+.ps-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 16px;
+  background: var(--ps-default);
+  color: var(--ps-fg);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.ps-chip--accent {
+  background: var(--ps-accent-soft);
+  color: var(--ps-accent);
+}
+
+.ps-preset-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ps-swatch-strip {
+  width: 46px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 3px;
+}
+
+.ps-preset-meta {
+  font-size: 11px;
+  color: var(--ps-fg-3);
+}
+
+.ps-preset-delete {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  opacity: 0;
+  color: var(--ps-fg-3);
+}
+
+.ps-preset-row:hover .ps-preset-delete,
+.ps-preset-delete:focus-visible {
+  opacity: 1;
+}
+
+.ps-preset-delete:hover {
+  color: var(--ps-danger);
+  background: var(--ps-surface-2);
+}
+
+.ps-empty-note {
+  padding: 10px 16px 16px;
+  margin: 0;
+  font-size: 12px;
+  color: var(--ps-fg-3);
+}
+
+.ps-preset-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--ps-separator);
+}
+
+.ps-name-field {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: var(--ps-radius-xl);
+  background: var(--ps-field-bg);
+  border: 1px solid transparent;
+}
+
+.ps-name-field:focus-within {
+  border-color: var(--ps-field-border);
+}
+
+.ps-name-field input {
+  width: 100%;
+  border: 0;
+  background: none;
+  color: var(--ps-fg);
+  font-size: 14px;
+}
+
+.ps-name-field input::placeholder {
+  color: var(--ps-fg-3);
+}
+
+.ps-transfer-row {
+  display: flex;
+  gap: 8px;
+}
+
+.ps-transfer-row .ps-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 10px;
+}
+
+.ps-helper {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ps-fg-3);
+}
+
+/* -------------------------------------------------------------------- stage */
+
+.ps-stage {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ps-stage-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 56px;
+  flex: 0 0 56px;
+  padding: 0 20px;
+  background: var(--ps-bg-2);
+  border-bottom: 1px solid var(--ps-border);
+}
+
+.ps-canvas-selector {
+  display: flex;
+  gap: 6px;
+}
+
+.ps-canvas-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: var(--ps-fg-2);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ps-canvas-chip:hover:not(.is-active) {
+  background: var(--ps-default);
+}
+
+.ps-canvas-chip.is-active {
+  background: var(--ps-accent);
+  color: var(--ps-accent-fg);
+}
+
+.ps-toolbar-divider {
+  width: 1px;
+  height: 22px;
+  flex: 0 0 auto;
+  background: var(--ps-border);
+}
+
+.ps-toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.ps-zoom {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ps-zoom-value {
+  min-width: 46px;
+  text-align: center;
+  font-family: var(--ps-font-numeric);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  color: var(--ps-fg-2);
+}
+
+.ps-viewport-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.ps-artboard {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 40px;
+  overflow: auto;
+  background: var(--ps-bg);
+  box-shadow: inset 0 2px 24px var(--ps-artboard-shadow);
+}
+
+.ps-artboard.has-grid {
+  background-image:
+    linear-gradient(to right, var(--ps-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ps-grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.ps-artboard-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  transform-origin: center center;
+  transition: transform 0.18s ease;
+}
+
+/* PrismGlow paints its rings/outline *below* `.aie-glow-content` (z-index 2),
+   but PrismLockScreen fills that content with an opaque screen + wallpaper, so
+   the glow ends up hidden. Move the phone's dark screen behind the glow layers
+   (onto the glow root itself) to match the reference stacking: screen → glow →
+   lock-screen UI. `.aie-glow-content` also needs a definite height, otherwise
+   the screen's `height: 100%` resolves against `auto` and collapses to zero. */
+.ps-phone .aie-glow-root {
+  background: linear-gradient(180deg, #000000 0%, #18181d 100%);
+}
+
+.ps-phone .aie-glow-content {
+  height: 100%;
+}
+
+.ps-phone .aie-iphone-screen {
+  background-color: transparent;
+}
+
+.ps-phone .aie-wallpaper {
+  display: none;
+}
+
+.ps-artboard-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ps-fg-3);
+}
+
+.ps-card-preview {
+  display: grid;
+  align-content: space-between;
+  gap: 24px;
+  height: 100%;
+}
+
+.ps-card-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.ps-card-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  padding: 8px 12px 8px 8px;
+  border-radius: 999px;
+  background: var(--ps-preview-card-pill-bg);
+  border: 1px solid var(--ps-preview-card-pill-border);
+  color: var(--ps-preview-card-fg);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ps-card-brand-icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px -10px var(--ps-brand-shadow);
+}
+
+.ps-card-preview h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--ps-preview-card-fg);
+}
+
+.ps-card-preview p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ps-preview-card-muted);
+}
+
+.ps-card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ps-stat-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  border-radius: var(--ps-radius-lg);
+  background: var(--ps-preview-card-pill-bg);
+  border: 1px solid var(--ps-preview-card-pill-border);
+}
+
+.ps-stat-pill span {
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--ps-preview-card-pill-muted);
+}
+
+.ps-stat-pill strong {
+  font-family: var(--ps-font-numeric);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ps-preview-card-fg);
+}
+
+/* ---------------------------------------------------------------- inspector */
+
+.ps-inspector {
+  display: flex;
+  flex-direction: column;
+  width: var(--ps-inspector-w);
+  flex: 0 0 var(--ps-inspector-w);
+  background: var(--ps-bg-2);
+  border-left: 1px solid var(--ps-border);
+}
+
+.ps-inspector-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--ps-separator);
+}
+
+.ps-inspector-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ps-inspector-titles strong {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ps-inspector-titles span {
+  font-size: 12px;
+  color: var(--ps-fg-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ps-inspector-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 18px 20px 24px;
+  overflow-y: auto;
+}
+
+.ps-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ps-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ps-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* stops */
+
+.ps-stop-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ps-stop {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ps-stop-label {
+  font-size: 12px;
+  color: var(--ps-fg-2);
+}
+
+.ps-stop-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.ps-stop-swatch {
+  width: 46px;
+  height: 36px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--ps-radius-lg);
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.ps-stop-swatch::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.ps-stop-swatch::-webkit-color-swatch {
+  border: 0;
+  border-radius: 6px;
+}
+
+.ps-stop-swatch::-moz-color-swatch {
+  border: 0;
+  border-radius: 6px;
+}
+
+.ps-stop-hex {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--ps-border);
+  border-radius: var(--ps-radius-lg);
+  background: var(--ps-field-bg);
+  color: var(--ps-fg);
+  font-family: var(--ps-font-numeric);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.ps-stop-remove {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  color: var(--ps-fg-3);
+}
+
+.ps-stop-remove:hover:not(:disabled) {
+  color: var(--ps-danger);
+  background: var(--ps-surface-2);
+}
+
+/* slider */
+
+.ps-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ps-slider-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ps-slider-head span {
+  font-size: 13px;
+  color: var(--ps-fg);
+}
+
+.ps-slider-head strong {
+  font-family: var(--ps-font-numeric);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ps-slider.is-disabled {
+  opacity: 0.5;
+}
+
+.ps-range {
+  width: 100%;
+  height: 14px;
+  margin: 0;
+  padding: 0;
+  border-radius: var(--ps-radius-pill);
+  background: linear-gradient(
+    to right,
+    var(--ps-accent) 0%,
+    var(--ps-accent) var(--ps-fill, 0%),
+    var(--ps-track) var(--ps-fill, 0%),
+    var(--ps-track) 100%
+  );
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.ps-range:disabled {
+  cursor: not-allowed;
+}
+
+.ps-range::-webkit-slider-thumb {
+  width: 18px;
+  height: 14px;
+  border: 0;
+  border-radius: var(--ps-radius-pill);
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  cursor: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.ps-range::-moz-range-thumb {
+  width: 18px;
+  height: 14px;
+  border: 0;
+  border-radius: var(--ps-radius-pill);
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  cursor: inherit;
+}
+
+.ps-range::-moz-range-track {
+  height: 14px;
+  background: transparent;
+}

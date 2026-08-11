@@ -1,0 +1,51 @@
+{
+  "name": "@mamaspace/prism",
+  "version": "1.0.6",
+  "description": "Prism animated glow border as a reusable React component.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "sideEffects": true,
+  "scripts": {
+    "build": "esbuild src/index.js --bundle --format=esm --outfile=dist/index.mjs --external:react --external:react-dom --loader:.js=jsx --loader:.jsx=jsx && esbuild src/index.js --bundle --format=cjs --outfile=dist/index.cjs --external:react --external:react-dom --loader:.js=jsx --loader:.jsx=jsx"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "glow_demo.png"
+  ],
+  "keywords": [
+    "react",
+    "prism",
+    "glow",
+    "border",
+    "lock-screen",
+    "ui",
+    "animation"
+  ],
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.3"
+  },
+  "license": "MIT",
+  "author": "Oliverrr2424",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mamaspacetlau/prism.git"
+  },
+  "homepage": "https://github.com/mamaspacetlau/prism#readme",
+  "bugs": {
+    "url": "https://github.com/mamaspacetlau/prism/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
